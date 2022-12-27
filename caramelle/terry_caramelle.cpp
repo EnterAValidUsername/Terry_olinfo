@@ -6,6 +6,8 @@ ofstream fout ("output.txt");
 
 int main () {
 	
+	// this is the best i could do, it returns 3221225620
+	
 	int T;
 	fin >> T;
 	
@@ -23,32 +25,33 @@ int main () {
 		long long int ans = 1;
 		
 		for (int i = 0; i < N; i++) {
+			
 			if (a[i].second || a[i].first != 1) {
+				
 				for (int j = 0; j < N; j++) {
+					
 					if (a[j].second || a[j].first != 1 || a[j].first != a[i].first) {
+						
 						if (a[i].first % a[j].second == 0) {
 							a[j].second = false;
 							
-							// ok più o meno l'idea c'e ma manca un pezzo fondamentale:
-							/*
-								all fine io avrò tutti i numeri più grossi
-								i quali potevano essere divisi da altri 
-								numeri presenti nella lista, tuttavia 
-								questo ragionamento porterebbe ad avere:
-								
-								utilizzando la lista:
-								4 5 2 5 10, i numeri 4 e 10 come restanti, ma il numero
-								minimo di caramelle di questo caso non è 40 bensì 20
-								
-								quindi al momento è incorretto
-							*/
+							for (int k = 0; k < N; k++) {
+								if (a[k].second && a[k].first % a[j].first == 0) {
+									a[k].first /= a[j].first;
+								}
+							}
 						}
 					}
 				}
 			}
 		}
 		
-		// don't mind this line of code,is purpouseless
+		for (int i = 0; i < N; i++) {
+			if (a[i].second) {
+				ans *= a[i].second;
+			}
+		}
+		
 		fout << "case #" << t << ": " << ans << "\n";
 		
 	}
