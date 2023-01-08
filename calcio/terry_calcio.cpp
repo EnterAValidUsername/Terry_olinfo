@@ -12,16 +12,17 @@ int main () {
 	fin >> T;
 	
 	for (int t = 1; t <= T; t++) {
+		cout << "calculating case #" << t << "...\n";
 		int N, M, K, A, B;
 		fin >> N >> M >> K >> A >> B;
 		
-		vector < vector < int > > grid(N);
+		vector < vector < int > > alberi(N);
 		
 		for (int i = 0; i < N; i++) {
-			grid[i].resize(M);
+			alberi[i].resize(M);
 			
 			for (int j = 0; j < M; j++) {
-				grid[i][j] = 0;
+				alberi[i][j] = 0;
 			}
 		}
 		
@@ -29,27 +30,46 @@ int main () {
 			int x, y;
 			fin >> x >> y;
 			
-			grid[x][y]++;
+			alberi[x][y]++;
 		}
 		
+		for (int ii = 0; ii < N; ii++) {
+			for (int jj = 0; jj < M; jj++) {
+				cout << alberi[ii][jj] << " ";				
+			}
+			cout << "\n";
+		}
+		
+		cout << "\n";
+		
+		// input
 		// - - - - - - - - - - - - - - - - - - -
+		// calcoli
 		
-		/*
-		l'idea è quella di inserire una matrice AxB nella matrice NxM la quale parta dalla cella 0,0 di NxM;
-		cercare poi se è vantagggioso spostarla di 1 colonna a destra piuttosto che di una riga in giù finché
-		non sarà più conveniente fare spostamenti.
+		int CurMatrice = 0, ans = 1<<30;
 		
-		problemi: ponendo il caso che ci sia un aagglomerato denso di alberi in un punto della foresta il quale 
-		impedisca di spostare vantaggiosamente AxB ma che la soluzione sia dopo questo agglomerato allora
-		la soluzione fallirebbe; tuttavia è possibile controllare le soluzioni dai 4 angoli, questo però invece che richiedere
-		N * M * (tot1*A + tot2*B), ne richiederebbe il quadruplo
-		*/
-		
-		int x = 0, y = 0; // indici della prima cella della matrice AxB
-		
-		for (int i = 0; i < N; i++) {
-			for (int j = 0; j < M; j++) {
+		for (int i = 0; i <= N - A; i++) {
+			
+			for (int k = i; k < A + i; k++) {
+				for (int l = 0; l < B; l++) {
+					CurMatrice += alberi[k][l];
+				}
+			}
+			
+			ans = min(ans, CurMatrice);
+			cout << "\nans: " << ans << ", setup\n";
+			
+			for (int j = B; j < M; j++) {
+				cout << "\nrimuovendo la colonna " << j - B << ", aggiungendo la colonna " << j;
+				for (int pi = i; pi <= A + i && cout << "\n" << pi << " " ; pi++) {
+					CurMatrice -= alberi[pi][j];
+					CurMatrice += alberi[pi][j - B]; //non accede all'ultima cella
+					cout << "cazzo";
+				}
+				cout << "\n";
 				
+				ans = min(ans, CurMatrice);
+				cout << "\nans: " << ans << "\n- - - - - - - - - - - - - - - - - - -\n";
 			}
 		}
 		
