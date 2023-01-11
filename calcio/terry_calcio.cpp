@@ -37,11 +37,8 @@ int main () {
 			int x, y;
 			fin >> x >> y;
 			
-			for (int k = A + x/2; k > x/2; k++) {
-				for (int h = B + y; h > y; h++) {
-					matrices[{k, h}]++;
-				}
-			}
+			//doppio ciclo che esamina tutte AxB le matrici che possono contenerlo, per poi fare: matrices[{k, h}]++;
+			//dove k e h sono gli indici che iterano sulle celle identificanti le matrici passanti per {x, y}
 		}
 		
 		vector < int > temp;
