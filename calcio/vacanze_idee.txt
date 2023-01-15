@@ -1,0 +1,14 @@
+a prescindere dalla dimenesione del grafo devo essere
+in grado di esaminare 4 nodi qualsiasi e se tra questi ci
+sono solamente 2 amicizie allora sono posibili come soluzione:
+
+idea 1:
+    calcolo per ogni nodo in ordine tutte le possibili
+    adiacenze, ovviamente senza ripetere quelle già fatte
+
+    complessità:
+        N * (adiacenze del singolo nodo) presi 4 a 4;
+        D(n, 4) = 1500 * 1499 * 1498 * 1497 = 5,042274741 * 10(12)
+
+idea2:
+    
