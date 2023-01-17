@@ -17,11 +17,7 @@ int main () {
 		int N, M, K, A, B;
 		fin >> N >> M >> K >> A >> B;
 
-		vector < vector < int > > m(N);
-
-		for (int i = 0; i < N; i++) {
-			m[i].resize(M);
-		}
+		vector < vector < int > > m(N, vector < int > (M));
 		
 		for (int i = 0; i < N; i++) {
 			for (int j = 0; j < M; j++) {
@@ -38,11 +34,7 @@ int main () {
 		}
 
 		// creo la matrice somma per le queries succcessive
-		vector < vector < int > > Sum(N + 1); // 1 index, tutti gli indici 0 valgono 0
-
-		for (int i = 0; i < N + 1; i++) {
-			Sum[i].resize(M + 1);
-		}
+		vector < vector < int > > Sum(N + 1, vector < int > (M + 1)); // 1 index, tutti gli indici 0 valgono 0
 
 		for (int i = 0; i < N + 1; i++) {
 			Sum[i][0] = 0;
