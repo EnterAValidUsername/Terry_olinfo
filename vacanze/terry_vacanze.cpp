@@ -4,22 +4,12 @@ using namespace std;
 
 ifstream fin ("input.txt");
 
-int N, M;
+// complesso come il cristo 
+
+int N, M, ans = 0;
 vector < vector < int > > graph;
+map < vector < int >, bool > visited;
 
-bool solve(int node) {
-    if (graph[node].size() >= 2) {
-        int n = graph[node].size();
-
-        for (int i = 0; i < n; i++) {
-            solve(graph[node][i]); 
-            // solve ancora non fa nulla e questa chiamata momentaneamente è inutile
-            // per ora li controlla tutti poi conclude tutte le chiamate con false
-        }
-    }
-
-    return false;
-}
 
 int main () {
     int T;
