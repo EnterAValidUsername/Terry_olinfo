@@ -6,51 +6,32 @@ ifstream fin ("collezionismo_input_1.txt");
 ofstream fout ("output.txt");
 
 typedef long long int ll;
-typedef pair < ll, ll > pll;
 
 int N, K;
 
-map < pll, ll > discrepanze;
+vector < ll > pSum(N);
 
-//
-void stampa (pair < pll, ll > x) {
-    cout << "x: {" << x.first.first << ", " << x.first.second << "}: " << x.second << "\n";
-}
-//
-
-ll solve (pair < pll, ll > curr = {{-1, -1}, 0}, int c = -1, ll best = (ll)1<<60) {
-    if (c == K - 1 && curr.first.second == N - 1) {
+ll solve (int index = 0, ll value = 0, int c = 0, ll best = (ll)1<<60) {
+    cout << "call:\n";
+    if (c == K && index == N - 1) {
         //
         cout << "done\n";
         //
-        return curr.second;
+        return value;
     }
-    else if (c >= K || curr.second >= best) {
+    else if ((c > K || value >= best) || (c < K && index == N - 1)) {
         //
-        cout << "c eccessivo: " << c << "\n";
+        cout << "calcolo inutile skippato" << "\n";
         //
         return (ll)1<<60;
     }
-    
-    //
-    cout << "curr: {" << curr.first.first << ", " << curr.first.second << "}:\n";
-    cout << "c: " << c << "\n";
-    //
 
-    int a = 0;
-    for (auto x : discrepanze) {
-        a++;
+    for (int i = index; i < N; i++) {
         //
-        cout << "loop: " << a << "\n";
+        cout << "loop: {" << index << ", " << i << "}\n";
         //
-        if (x.first.first == curr.first.second + 1) {
-            //
-            stampa(x);
-            cout << "nuova chiamata\n";
-            //
-            best = min (solve(x, c + 1, best) + x.second, best);
-            cout << "best: " << best << "\n";
-        }
+        best = min (best, solve(i + 1, pSum[i] - pSum[index], c + 1, best) + value); //va bene
+        cout << "best: " << best << "\n";
     }
 
     return best;
@@ -73,7 +54,8 @@ int main () {
             fin >> N >> K;
 
             vector < ll > C(N);
-            vector < ll > pSum(N);
+
+            pSum.resize(N);
 
             for (int i = 0; i < N; i++) {
                 fin >> C[i];
@@ -83,13 +65,6 @@ int main () {
 
             for (int i = 0; i < N; i++) {
                 pSum[i] = C[i] - C[0]; // prefix sum array (differenze)
-            }
-
-            for (int i = 0; i < N; i++) {
-                discrepanze[{i, i}] = 0;
-                for (int j = 0; j < i; j++) {
-                    discrepanze[{j, i}] = pSum[i] - pSum[j]; // dati gli indici i e j, discrepanze contiene la loro differenza
-                }
             }
 
             fout << "case #" << t << ": " << solve() << "\n";
