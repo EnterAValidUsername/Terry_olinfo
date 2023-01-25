@@ -11,33 +11,34 @@ int N, K;
 
 vector < ll > pSum(N);
 
-ll solve (int index = 0, ll value = 0, int c = 0, ll best = (ll)1<<60) {
-    cout << "call:\n";
+// troppo complessa
+ll solve (int index = -1, ll value = 0, int c = 0, ll best = (ll)1<<60) {
+    //cout << "call:\n";
     if (c == K && index == N - 1) {
         //
-        cout << "done\n";
-        //
+        //cout << "done\n";
+        // 
+
         return value;
     }
     else if ((c > K || value >= best) || (c < K && index == N - 1)) {
         //
-        cout << "calcolo inutile skippato" << "\n";
+        //cout << "calcolo inutile skippato" << "\n";
         //
         return (ll)1<<60;
     }
 
-    for (int i = index; i < N; i++) {
-        //
-        cout << "loop: {" << index << ", " << i << "}\n";
-        //
-        best = min (best, solve(i + 1, pSum[i] - pSum[index], c + 1, best) + value); //va bene
-        cout << "best: " << best << "\n";
+    for (int i = index + 1; i < N; i++) {
+        
+        //cout << "loop: {" << index + 1 << ", " << i << "}\n";
+
+        best = min (best, solve(i, pSum[i] - pSum[index + 1], c + 1, best) + value); //va bene
+        //cout << "best: " << best << "\n";
     }
 
     return best;
 }
 
-// si ferma al primo test case il cui risultato è sempre 1<<60
 int main () {
 
     int T;
@@ -48,6 +49,7 @@ int main () {
 
         if (t >= 7) {
             fout << "case#" << t << ": " << 0 << "\n";
+            cout << "done\n";
         }
         else {
 
@@ -68,6 +70,7 @@ int main () {
             }
 
             fout << "case #" << t << ": " << solve() << "\n";
+            cout << "done\n";
         }
     }
     
