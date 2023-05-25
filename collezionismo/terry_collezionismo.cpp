@@ -13,27 +13,15 @@ vector < ll > pSum(N);
 
 // troppo complessa
 ll solve (int index = -1, ll value = 0, int c = 0, ll best = (ll)1<<60) {
-    //cout << "call:\n";
     if (c == K && index == N - 1) {
-        //
-        //cout << "done\n";
-        // 
-
         return value;
     }
     else if ((c > K || value >= best) || (c < K && index == N - 1)) {
-        //
-        //cout << "calcolo inutile skippato" << "\n";
-        //
         return (ll)1<<60;
     }
 
     for (int i = index + 1; i < N; i++) {
-        
-        //cout << "loop: {" << index + 1 << ", " << i << "}\n";
-
         best = min (best, solve(i, pSum[i] - pSum[index + 1], c + 1, best) + value); //va bene
-        //cout << "best: " << best << "\n";
     }
 
     return best;
